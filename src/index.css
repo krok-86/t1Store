@@ -1,0 +1,52 @@
+:root {
+  font-family: "Jost", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #444B58;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-width: 320px;
+}
+
+button {
+  font-family: "Jost", sans-serif;
+}
+
+section, article, div, header, footer, input, dt, dd  {
+  box-sizing: border-box;
+}
+
+* {
+  outline: 0;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 56px;
+  text-align: left;
+  color: #444B58;
+  margin: 0px;
+}
+
+p, h2, h3, dt, dd {
+  margin: 0px;
+}
+
+dt, dd {
+  padding: 0px;
+}

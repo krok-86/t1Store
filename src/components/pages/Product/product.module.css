@@ -1,0 +1,155 @@
+.product {
+  padding: 48px 130px;
+  display: grid;
+  grid-template-columns: 520px 620px;
+  gap: 39px;
+  margin-bottom: 114px;
+}
+
+.marks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 24px;
+  margin: 15px 0 24px;
+}
+
+.stars {
+  width: 116px;
+  height: 20px;
+}
+
+.tags {
+  font-size: 16px;
+  line-height: 24px;
+  color: #646464;
+  margin: 25px 0 23px;
+
+}
+
+.stock {
+  height: 48px;
+  border-top: 1px solid #C4C4C4;
+  border-bottom: 1px solid #C4C4C4;
+  color: #F14F4F;font-family: Jost;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  padding: 11px 0;
+}
+
+.description {
+  margin: 24px 0;
+  font-size: 18px;
+  text-align: left;
+  line-height: 1.68;
+}
+
+.terms {
+  font-size: 16px;
+  margin: 24px 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buy {
+  width: 100%;
+  height: 86px;
+  background-color: #0000000A;
+  border-radius: 6px;
+  padding: 13px 12px;
+  display: grid;
+  grid-template-columns: 331px 176px;
+  gap: 89px;
+}
+
+.price {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 134px 1fr;
+  margin-top: 1px;
+}
+
+.costs {
+  display: grid;
+  grid-template-rows: 40px 20px;
+  padding: 0 24px 0 20px;
+  border-right: 1px solid #D5D5D5;
+  gap: 1px;
+}
+
+.total {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.previous {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-decoration: line-through;
+}
+
+.discount {
+  padding-left: 24px;
+  margin: auto 0;
+  padding-top: 1px;
+}
+
+.discount_bold {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  display: inline;
+  margin-left: 9px;
+}
+
+.button {
+  width: 176px;
+  font-size: 16px;
+}
+
+.name {
+  margin-top: 1px;
+  letter-spacing: -0.54px;
+}
+
+@media (max-width: 1439px) {
+  .product {
+    padding: 48px 30px;
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+  }
+}
+
+@media (max-width: 1220px) {
+  .product {
+    padding: 48px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buy {
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+  }
+
+  .description {
+    margin: 12px 0;
+    font-size: 16px;
+    text-align: left;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .buy {
+    grid-template-columns: unset;
+    grid-template-rows: 2fr 1fr;
+    gap: 30px;
+  }
+}

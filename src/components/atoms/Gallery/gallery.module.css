@@ -1,0 +1,49 @@
+.gallery {
+  width: 520px;
+  height: 600px;
+}
+
+.mainPictureWrap {
+  width: 520px;
+  height: 520px;
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mainPicture {
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.pictureWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.picture {
+  object-fit: cover;
+  width: 70px;
+  height: 70px;
+  border: 3px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+ .pictureBorder {
+  border: 3px solid #C4C4C4;
+ }
+
+ @media (max-width: 600px) {
+  .gallery {
+    width: 300px;
+  }
+  .mainPictureWrap {
+    width: 300px;
+  }
+}
