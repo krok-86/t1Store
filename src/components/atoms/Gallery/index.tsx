@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-import { arrGallery } from '../../../mocks';
+// import { arrGallery } from '../../../mocks';
 
 import styles from './gallery.module.css';
 
-type GallaryType = {
-  id: number,
-  src: string,
-  alt: string,
+type GalleryType = {
+  images: string[],
+  title: string,
 }
-const Gallery = () => {
+const Gallery:FC <GalleryType> = ({images, title}) => {
 
-  const [activeIndex, setActivIndex] = useState(arrGallery[0]);
+  const [active, setActive] = useState(images[0]);
 
-  const handleChange = (el: GallaryType) => {
-    setActivIndex(el)
+  const handleChange = (el: string) => {
+    setActive(el)
   };
 
   return (
@@ -22,20 +21,20 @@ const Gallery = () => {
       <div className={styles.mainPictureWrap}>
         <img
           className={styles.mainPicture}
-          src={activeIndex.src}
-          alt={activeIndex.alt}
+          src={active}
+          alt={title}
         />
       </div>
       <div className={styles.pictureWrap}>
-        {arrGallery.map((item, index) => {
-          const bordered = activeIndex.id === item.id ? styles.pictureBorder : '';
+        {images.length > 1 && images.map((item, index) => {
+          const bordered = active === item ? styles.pictureBorder : '';
           return (
             <img
               className={`${styles.picture} ${bordered}`}
               onClick={() => handleChange(item)}
               key={index}
-              src={item.src}
-              alt={item.alt}
+              src={item}
+              alt={title}
             />
           )}
         )}

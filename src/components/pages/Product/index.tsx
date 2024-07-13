@@ -1,41 +1,66 @@
+import { useParams } from 'react-router-dom';
+import { useGetProductByIdQuery } from '../../../redux/api/index.rtkQuery';
+import { formRatingArray } from '../../../utils';
 import Button from '../../atoms/Button';
 import Gallery from '../../atoms/Gallery';
+import Spinner from '../../atoms/Spinner';
 
 import styles from './product.module.css'
 
+// import Spinner from '../../atoms/Spinner';
+// import { useParams } from 'react-router-dom';
+// import { getItemsProduct } from '../../../redux/api';
+
 const Product = () => {
+  const { id } = useParams<{ id: string }>();
+
+  const { data, isLoading, isError } = useGetProductByIdQuery(id);
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError || !data) {//доделать назад и тосты
+    return <p>error</p>;
+  }
+
+  const ratingArray = formRatingArray(data.rating);
+
+  const discountedPrice = (data.price * (100-data.discountPercentage)/100).toFixed(2);
+console.log('>>>>>>>>>>>',data)
   return (
     <article className={styles.product}>
-      <title>Essence Mascara Lash Princess | Goods4you</title>
-      <Gallery />
+      <title>{data.title} | Goods4you</title>
+      <Gallery images={data.images} title ={data.title}/>
       <section className={styles.info}>
-        <h1 className={styles.name}>Essence Mascara Lash Princess</h1>
+        <h1 className={styles.name}>{data.title}</h1>
         <div className={styles.marks}>
-          <img className={styles.stars} src='/pictures/stars.svg' alt='rating'/>
+          {/* <img className={styles.stars} src='/pictures/stars.svg' alt='rating'/> */}
+          <div className={styles.stars}>
+            {ratingArray.map((rate) => <img className={styles.star} src={rate} alt='rating star' />)}
+          </div>
           <div className={styles.tags}>
-            electronics, selfie accessories
+            {data.tags.join(", ")}
           </div>
         </div>
         <div className={styles.stock}>
-          In Stock - Only 5 left!
+          In Stock - Only {data.stock} left!
         </div>
         <p className={styles.description}>
-          The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects.
-          Achieve dramatic lashes with this long-lasting and cruelty-free formula.
+          {data.description}
         </p>
         <div className={styles.terms}>
-          <p>1 month warranty</p>
-          <p>Ships in 1 month</p>
+          <p>{data.warrantyInformation}</p>
+          <p>{data.shippingInformation}</p>
         </div>
         <div className={styles.buy}>
           <div className={styles.price}>
             <div className={styles.costs}>
-              <p className={styles.total}>7.17$</p>
-              <p className={styles.previous}>9.99$</p>
+              <p className={styles.total}>{discountedPrice}$</p>
+              <p className={styles.previous}>{data.price}$</p>
             </div>
             <p className={styles.discount}>
-            Your discount:<p className={styles.discount_bold}>14.5%</p>
-          </p>
+              Your discount:<p className={styles.discount_bold}>{(data.discountPercentage).toFixed(2)}%</p>
+            </p>
           </div>
           <Button
             className={styles.button}

@@ -1,22 +1,22 @@
 import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '../../atoms/Button';
 import Counter from '../../molecules/Counter';
 
-import { CardItemType } from '../CardItem';
-
 import styles from './card.module.css';
-import { Link } from 'react-router-dom';
 
-const FULL_TEXT = "Essence Mascara Lash Princess";
+import { CatalogItemType } from '../../../types/types';
 
-const Card:FC <CardItemType> = ({ cardData, defaultCounter }) => {
+type CardType = {
+  cardData: CatalogItemType;
+  defaultCounter: number;
+}
+const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
 
   const [count, setCount] = useState(defaultCounter);
   const [isHovered, setIsHovered] = useState(false);
-
-  const truncatedText = cardData.name.slice(0, 20) + (FULL_TEXT.length > 20 ? '...' : '');
-
+  const truncatedText = (cardData?.title?.length > 20 && count) ? cardData?.title?.slice(0, 19) + '...' : cardData?.title;
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -35,7 +35,7 @@ const Card:FC <CardItemType> = ({ cardData, defaultCounter }) => {
 
   return (
     <Link
-      to='/product/1'
+      to={`/product/${cardData.id}`}
       className={styles.card}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -46,8 +46,8 @@ const Card:FC <CardItemType> = ({ cardData, defaultCounter }) => {
         id="more-info"
       >
         <img
-          src={cardData.img}
-          alt={cardData.alt}
+          src={cardData.thumbnail}
+          alt={cardData.title}
         />
         <div
           className={`${styles.mouseTarget} ${eventMouse}`}
@@ -59,14 +59,14 @@ const Card:FC <CardItemType> = ({ cardData, defaultCounter }) => {
       <div className={styles.title}>
         <div className={styles.textWrap}>
           <div className={`${styles.textDescription} ${isHovered && styles.isHovered}`}>
-            {count ? truncatedText : FULL_TEXT}
+            {count ? truncatedText : cardData.title}
           </div>
           <div className={styles.textPrice}>
             {cardData.price} $
           </div>
         </div>
-        {count ?
-          <Counter count={count} setCount={setCount} />
+        {defaultCounter ?
+          <Counter count={defaultCounter} setCount={setCount} />
           :
           <Button
             className={styles.buy}

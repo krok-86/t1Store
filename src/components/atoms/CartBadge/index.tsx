@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import styles from './cartBadge.module.css';
 
-const CartBadge = () => {
-
-  const [badge, setBadge] = useState(1)
+type CartBadgeType = {
+  totalQuantity: number;
+}
+const CartBadge:FC <CartBadgeType> = ({totalQuantity}) => {
 
   return (
     <div className={styles.cartBadge}>
       <img className={styles.cart} src="/pictures/cart.svg" alt="cart" />
-      <div className={styles.circle}>{badge}</div>
+      <div className={styles.circle}>{totalQuantity}</div>
     </div>
   )
 };

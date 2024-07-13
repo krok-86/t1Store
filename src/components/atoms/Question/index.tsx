@@ -10,12 +10,10 @@ export type FAQType = {
 
 interface IQuestionProps {
   faq: FAQType;
-  //temporary props to be figma convenient
-  defaultState: boolean;
 }
 
-const Question: FC<IQuestionProps> = ({ faq, defaultState }) => {
-  const [opened, setOpened] = useState<boolean>(defaultState);
+const Question: FC<IQuestionProps> = ({ faq }) => {
+  const [opened, setOpened] = useState<boolean>(false);
 
   const handleClick = (): void => {
     setOpened(!opened);

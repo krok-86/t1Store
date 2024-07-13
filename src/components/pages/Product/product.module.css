@@ -17,6 +17,13 @@
 .stars {
   width: 116px;
   height: 20px;
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
 }
 
 .tags {
@@ -68,7 +75,7 @@
 .price {
   width: 100%;
   display: grid;
-  grid-template-columns: 134px 1fr;
+  grid-template-columns: auto 1fr;
   margin-top: 1px;
 }
 

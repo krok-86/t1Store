@@ -21,8 +21,6 @@ const Faq = () => {
             <Question
               key={index}
               faq={item}
-                //temporary props to be figma convenient
-              defaultState={index===0}
               />
           ))}
         </div>

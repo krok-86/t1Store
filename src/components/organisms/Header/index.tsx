@@ -4,8 +4,17 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import CartBadge from '../../atoms/CartBadge';
 
 import styles from './header.module.css';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook';
+import { getCartsByAUser } from '../../../redux/slices/cart';
 
 const CustomHeader = () => {
+
+  const { totalQuantity } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCartsByAUser(''));
+  }, [dispatch]);
 
   const location = useLocation();
 
@@ -14,14 +23,14 @@ const CustomHeader = () => {
     const hash = location.hash.replace('#', '');
     const element = document.getElementById(hash);
     if (!element) { return; }
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
-    };
+    element.scrollIntoView({
+      behavior: 'smooth'
+    });
+  };
 
   useEffect(() => {
     scrollToHash();
-  }, [scrollToHash ]);
+  }, [scrollToHash]);
 
   return (
     <header className={styles.header}>
@@ -38,7 +47,9 @@ const CustomHeader = () => {
         <NavLink to='cart'>
           <div className={styles.navBadge}>
             <div className={`${styles.navLink} ${styles.navBadgeLink}`}>Cart</div>
-            <CartBadge />
+            {totalQuantity &&
+              <CartBadge totalQuantity={totalQuantity} />
+            }
           </div>
         </NavLink>
         <div className={styles.navLink}>Johnson Smith</div>

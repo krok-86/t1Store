@@ -4,18 +4,16 @@ import { Link } from 'react-router-dom';
 import Counter from '../../molecules/Counter';
 import Button from '../../atoms/Button';
 
-import { ItemType } from '../../pages/Catalog';
-
 import styles from './cardItem.module.css';
+import { IProductCart } from '../../../types/types';
+
 
 export type CardItemType = {
-  cardData: ItemType,
-  //temporary props to be figma convenient
-  defaultCounter: number,
+  cardData: IProductCart,
 }
 
-const CardItem: FC<CardItemType> = ({ cardData, defaultCounter }) => {
-  const [count, setCount] = useState(defaultCounter);
+const CardItem: FC<CardItemType> = ({ cardData }) => {
+  const [count, setCount] = useState(cardData.quantity);
 
   const handleDel = () => {
     setCount(0)
@@ -31,14 +29,14 @@ const CardItem: FC<CardItemType> = ({ cardData, defaultCounter }) => {
         <div className={styles.pictureWrap}>
           <img
             className={styles.picture}
-            src={cardData.img}
-            alt={cardData.alt}
+            src={cardData.thumbnail}
+            alt={cardData.title}
           />
         </div>
         <div className={styles.textWrap}>
-          <Link to='/product/1'>
+          <Link to={`/product/${cardData.id}`}>
             <div className={styles.text}>
-              {cardData.name}
+              {cardData.title}
             </div>
           </Link>
           <div className={styles.price}>
@@ -49,7 +47,7 @@ const CardItem: FC<CardItemType> = ({ cardData, defaultCounter }) => {
       {count ?
         <div className={styles.actions}>
           <Counter
-            count={count}
+            count={cardData.quantity}
             setCount={setCount}
           />
           <div
