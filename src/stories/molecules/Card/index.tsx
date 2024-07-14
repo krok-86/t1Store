@@ -1,17 +1,19 @@
 import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Counter from '../../../components/molecules/Counter';
 import Button from '../../atoms/Button';
-import Counter from '../../molecules/Counter';
 
 import styles from './card.module.css';
 
 import { CatalogItemType } from '../../../types/types';
+import ImageWrapper from '../../../components/atoms/ImageWrapper';
 
 type CardType = {
   cardData: CatalogItemType;
   defaultCounter: number;
-}
+};
+
 const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
 
   const [count, setCount] = useState(defaultCounter);
@@ -45,7 +47,7 @@ const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
         className={styles.picWrap}
         id="more-info"
       >
-        <img
+        <ImageWrapper
           src={cardData.thumbnail}
           alt={cardData.title}
         />
@@ -66,14 +68,16 @@ const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
           </div>
         </div>
         {defaultCounter ?
-          <Counter count={defaultCounter} setCount={setCount} />
+          <Counter
+            count={defaultCounter}
+            // setCount={setCount}
+          />
           :
           <Button
             className={styles.buy}
             label={<img className={styles.cart} src="./pictures/cart.svg" alt="cart" />}
             onClick={addToCart}
             isSmall
-            isOnlySymbol
             area-label='Add to cart'
           />
         }

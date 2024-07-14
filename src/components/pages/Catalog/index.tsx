@@ -1,43 +1,49 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import Spinner from '../../atoms/Spinner';
 import { useGetCatalogQuery } from '../../../redux/api/index.rtkQuery';
 
 import { useAppSelector } from '../../../hooks/hook';
-
-import Input from '../../atoms/Input';
-import Card from '../../organisms/Card';
-import Button from '../../atoms/Button';
-import Introduction from '../../templates/Introduction';
-import FAQ from '../../molecules/FAQ';
-
-import styles from './catalog.module.css';
+import { countInCart, errorToast, SessionStorageUtil, useDebounce } from '../../../utils';
 
 import { CatalogItemType, IProductCart } from '../../../types/types';
-import { SessionStorageUtil, useDebounce } from '../../../utils';
+
+import Introduction from '../../templates/Introduction';
+import Input from '../../../stories/atoms/Input';
+import Card from '../../../stories/molecules/Card';
+import Button from '../../../stories/atoms/Button';
+import FAQ from '../../../stories/molecules/FAQ';
+import NotFoundPage from '../NotFoundPage';
+
+import styles from './Catalog.module.css';
 
 const Catalog: FC = () => {
+  const firstRender = useRef<boolean>(true);
+
   const [search, setSearch] = useState('');
   const [amount, setAmount] = useState(() => {
     const savedAmount = SessionStorageUtil.getItem('catalogAmount');
     return savedAmount ? parseInt(savedAmount, 10) : 12;
   });
+
   const { items } = useAppSelector((state) => state.cart);
 
-   const debouncedSearch = useDebounce(search, 900);
+  const debouncedSearch = useDebounce(search, 900);
   const queryData = useMemo(() => ({ search: debouncedSearch, limit: amount }), [debouncedSearch, amount]);
   const { data, isLoading, isError } = useGetCatalogQuery(queryData);
-  
+
   useEffect(() => {
     SessionStorageUtil.setItem('catalogAmount', amount.toString());
   }, [amount]);
 
   if (isLoading) {
     return <Spinner />;
-  }
+  };
 
   if (isError || !data) {
-    return <p>error</p>;//доделать назад и тосты
-  }
+    firstRender.current && errorToast('Ошибка получения товаров каталога');
+    firstRender.current = false;
+    return <NotFoundPage />;
+  };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget?.value);
@@ -45,8 +51,7 @@ const Catalog: FC = () => {
 
   const handleAmount = () => {
     setAmount(amount + 12);
-  }
-  console.log(search)
+  };
 
   return (
     <>
@@ -69,17 +74,17 @@ const Catalog: FC = () => {
           aria-description="Find product by name"
           role="search"
         />
-        <div className={styles.catalogList} tabIndex={2} role="list">
+        <div
+          className={styles.catalogList}
+          tabIndex={2}
+          role="list"
+        >
           {data.products.map((item: CatalogItemType, index) => {
-            const quantityInCart = items.find((el: IProductCart) => el.id == item.id)?.quantity || 0;
-            // console.log(items,items.find((el: IProductCart) => el.id === item.id))
-            console.log(items)
-            console.log(quantityInCart)
             return (
               <Card
                 key={index}
                 cardData={item}
-                defaultCounter={quantityInCart}
+                defaultCounter={countInCart(items, item.id)}
               />
             )
           })}

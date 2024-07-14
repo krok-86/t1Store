@@ -1,9 +1,11 @@
 import CardItem from '../../organisms/CardItem';
 
-import styles from './cart.module.css';
 import { useAppSelector } from '../../../hooks/hook';
 
 import Spinner from '../../atoms/Spinner';
+import EmptyCartPage from '../EmptyCartPage';
+
+import styles from './cart.module.css';
 
 const Cart = () => {
   const { items, totalQuantity, total, discountedTotal, status } = useAppSelector((state) => state.cart);
@@ -11,16 +13,17 @@ const Cart = () => {
   const itemsCount = totalQuantity > 1 ? "items" : "item";
 
   if (!totalQuantity && status === 'loaded') {
-    return <div>Your cart is empty!!!</div>
-  }
+    return <EmptyCartPage />
+  };
 
   if (status === 'loading') {
     return <Spinner />
-  }
+  };
 
   if (!totalQuantity) {
     return null
-  }
+  };
+
   return (
     <article className={styles.cart}>
       <title>My cart | Goods4you</title>
@@ -31,7 +34,6 @@ const Cart = () => {
             <CardItem
               key={idx}
               cardData={item}
-            //temporary props to be figma convenient
             />
           ))}
         </section>

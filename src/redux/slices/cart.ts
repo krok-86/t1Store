@@ -38,13 +38,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // get imems from cart
     builder.addCase(getCartsByAUser.fulfilled, (state, action) => {
       state.status = 'loaded';
-      state.items = action.payload.data.carts[0].products;
-      state.totalQuantity = action.payload.data.carts[0].totalQuantity;
-      state.total = action.payload.data.carts[0].total;
-      state.discountedTotal = action.payload.data.carts[0].discountedTotal;
+      state.items = action.payload.data.carts[0]?.products;
+      state.totalQuantity = action.payload.data.carts[0]?.totalQuantity;
+      state.total = action.payload.data.carts[0]?.total;
+      state.discountedTotal = action.payload.data.carts[0]?.discountedTotal;
     });
     builder.addCase(getCartsByAUser.pending, (state) => {
       state.status = 'loading';

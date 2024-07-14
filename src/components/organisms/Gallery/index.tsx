@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-// import { arrGallery } from '../../../mocks';
+import ImageWrapper from '../../atoms/ImageWrapper';
 
 import styles from './gallery.module.css';
 
@@ -19,7 +19,7 @@ const Gallery:FC <GalleryType> = ({images, title}) => {
   return (
     <section className={styles.gallery}>
       <div className={styles.mainPictureWrap}>
-        <img
+        <ImageWrapper
           className={styles.mainPicture}
           src={active}
           alt={title}
@@ -29,7 +29,7 @@ const Gallery:FC <GalleryType> = ({images, title}) => {
         {images.length > 1 && images.map((item, index) => {
           const bordered = active === item ? styles.pictureBorder : '';
           return (
-            <img
+            <ImageWrapper
               className={`${styles.picture} ${bordered}`}
               onClick={() => handleChange(item)}
               key={index}

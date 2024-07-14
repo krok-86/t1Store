@@ -12,12 +12,12 @@
   overflow: hidden;
 }
 
-img {
+.img {
   height: 100%;
   width: auto;
 }
 
-details{
+.details{
   opacity: 25%;
 }
 

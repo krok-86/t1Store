@@ -1,36 +1,3 @@
-export const arrGallery = [
-  {
-    id: 1,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-  {
-    id: 2,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-  {
-    id: 3,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-  {
-    id: 4,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-  {
-    id: 5,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-  {
-    id: 6,
-    src: "/pictures/imageItem.png",
-    alt: "sneakers"
-  },
-];
-
 export const arrFAQ = [
   {
     question: 'How can I track the status of my order?',

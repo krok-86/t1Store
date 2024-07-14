@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import Button from '../../atoms/Button';
+
+import Button from '../../../stories/atoms/Button';
 
 import styles from './introduction.module.css';
 

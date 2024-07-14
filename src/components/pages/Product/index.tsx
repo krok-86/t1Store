@@ -1,32 +1,38 @@
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../../redux/api/index.rtkQuery';
-import { formRatingArray } from '../../../utils';
-import Button from '../../atoms/Button';
-import Gallery from '../../atoms/Gallery';
+import { countInCart, errorToast, formRatingArray } from '../../../utils';
+import Gallery from '../../organisms/Gallery';
 import Spinner from '../../atoms/Spinner';
 
 import styles from './product.module.css'
-
-// import Spinner from '../../atoms/Spinner';
-// import { useParams } from 'react-router-dom';
-// import { getItemsProduct } from '../../../redux/api';
+import Button from '../../../stories/atoms/Button';
+import NotFoundPage from '../NotFoundPage';
+import { useAppSelector } from '../../../hooks/hook';
+import Counter from '../../molecules/Counter';
+import { useMemo } from 'react';
 
 const Product = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = '-1' } = useParams<{ id: string }>();
+
+  const { items } = useAppSelector((state) => state.cart);
+
+  const count = useMemo(() => countInCart(items, +id), [items, id])
 
   const { data, isLoading, isError } = useGetProductByIdQuery(id);
+
   if (isLoading) {
     return <Spinner />;
-  }
+  };
 
-  if (isError || !data) {//доделать назад и тосты
-    return <p>error</p>;
-  }
+  if (isError || !data) {
+    errorToast('Товар не найден!');
+    return <NotFoundPage />;
+  };
 
   const ratingArray = formRatingArray(data.rating);
 
   const discountedPrice = (data.price * (100-data.discountPercentage)/100).toFixed(2);
-console.log('>>>>>>>>>>>',data)
+
   return (
     <article className={styles.product}>
       <title>{data.title} | Goods4you</title>
@@ -34,7 +40,6 @@ console.log('>>>>>>>>>>>',data)
       <section className={styles.info}>
         <h1 className={styles.name}>{data.title}</h1>
         <div className={styles.marks}>
-          {/* <img className={styles.stars} src='/pictures/stars.svg' alt='rating'/> */}
           <div className={styles.stars}>
             {ratingArray.map((rate) => <img className={styles.star} src={rate} alt='rating star' />)}
           </div>
@@ -62,10 +67,18 @@ console.log('>>>>>>>>>>>',data)
               Your discount:<p className={styles.discount_bold}>{(data.discountPercentage).toFixed(2)}%</p>
             </p>
           </div>
-          <Button
-            className={styles.button}
-            label='Add to cart'
-          />
+
+          {count ?
+            <Counter
+              count={count}
+              // setCount={setCount}
+            />
+            :
+            <Button
+              className={styles.button}
+              label='Add to cart'
+            />
+          }
         </div>
       </section>
     </article>

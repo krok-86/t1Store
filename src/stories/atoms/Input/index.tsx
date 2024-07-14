@@ -2,7 +2,7 @@ import { FC, useState, ChangeEvent } from "react";
 
 import styles from './input.module.css';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
