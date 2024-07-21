@@ -1,6 +1,8 @@
 .catalog {
   width: 100%;
   padding: 48px 128px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .catalogTitle {

@@ -1,11 +1,19 @@
 .footer {
   width: 100%;
+  max-width: 1440px;
   height: 90px;
   background-color: #444B58;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 132px 0 128px;
+  margin: 0 auto;
+}
+
+.footerWrap {
+  width: 100%;
+  height: 90px;
+  background-color: #444B58;
 }
 
 .logo {

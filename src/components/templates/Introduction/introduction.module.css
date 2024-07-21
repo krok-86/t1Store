@@ -2,8 +2,6 @@
   width: 100%;
   height: 500px;
   background-color: #484283;
-  padding: 0 132px 0 128px;
-  position: relative;
   color: #ffffff;
   overflow: hidden;
 }
@@ -15,7 +13,10 @@
   gap: 30px;
   width: 100%;
   border-top: 1px solid #FFFFFF;
-  padding: 113px 0;
+  padding: 113px 132px 0 128px;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
 }
 .textWrap {
   height: 100px;
@@ -60,7 +61,7 @@
   font-size: 200px;
   font-weight: 700;
   opacity: 12%;
-  left: 175px;
+  left: 178px;
   top: 122px;
 }
 

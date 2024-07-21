@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Counter from '../../../components/molecules/Counter';
@@ -8,39 +8,49 @@ import styles from './card.module.css';
 
 import { CatalogItemType } from '../../../types/types';
 import ImageWrapper from '../../../components/atoms/ImageWrapper';
+import { useAppSelector } from '../../../hooks/hook';
+import { countInCart } from '../../../utils';
 
 type CardType = {
   cardData: CatalogItemType;
-  defaultCounter: number;
+  sendCart?: (idProduct: number, num: number, cardData: CatalogItemType) => void;
 };
 
-const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
+const Card: FC<CardType> = ({ cardData, sendCart }) => {
 
-  const [count, setCount] = useState(defaultCounter);
-  const [isHovered, setIsHovered] = useState(false);
+  const { items, addStatus } = useAppSelector((state) => state.cart);
+
+  const [count, setCount] = useState(0);
+
   const truncatedText = (cardData?.title?.length > 20 && count) ? cardData?.title?.slice(0, 19) + '...' : cardData?.title;
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
 
   const addToCart = (event: React.MouseEvent<HTMLButtonElement>): void => {
-      event.preventDefault();
-      //temporary removed to user interaction turn off
-      // setCount(1);
+    event.preventDefault();
+    const newCount = count + 1;
+      sendCart && sendCart(cardData.id, newCount, cardData);
+      setCount(newCount);
   };
 
-  const eventMouse = isHovered ? styles.mouseTargetVisible : styles.mouseTargetHidden;
+  const handleChangeCount = (number: number) => {
+    sendCart && sendCart(cardData.id, number, cardData);
+    setCount(number);
+  };
+
+  useEffect(() => {
+    setCount(countInCart(items, cardData.id));
+  }, [cardData.id]);
+
+  useEffect(() => {
+    if (addStatus === 'error') {
+      const n = countInCart(items, cardData.id);
+      setCount(n);
+    }
+  }, [addStatus]);
 
   return (
     <Link
       to={`/product/${cardData.id}`}
       className={styles.card}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       role="listitem"
     >
       <div
@@ -52,7 +62,7 @@ const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
           alt={cardData.title}
         />
         <div
-          className={`${styles.mouseTarget} ${eventMouse}`}
+          className={`${styles.mouseTarget}`}
           aria-details="more-info"
         >
           Show details
@@ -60,25 +70,28 @@ const Card:FC <CardType> = ({ cardData, defaultCounter }) => {
       </div>
       <div className={styles.title}>
         <div className={styles.textWrap}>
-          <div className={`${styles.textDescription} ${isHovered && styles.isHovered}`}>
+          <div className={`${styles.textDescription} `}>
             {count ? truncatedText : cardData.title}
           </div>
           <div className={styles.textPrice}>
             {cardData.price} $
           </div>
         </div>
-        {defaultCounter ?
+        { count ?
           <Counter
-            count={defaultCounter}
-            // setCount={setCount}
+            count={count}
+            setCount={handleChangeCount}
+            limit={cardData.stock}
+            isLoading={ addStatus === 'loading' }
           />
           :
           <Button
             className={styles.buy}
-            label={<img className={styles.cart} src="./pictures/cart.svg" alt="cart" />}
+            label={<img className={styles.cart} src="./pictures/cart.svg" alt="add item to cart" />}
             onClick={addToCart}
             isSmall
-            area-label='Add to cart'
+            aria-label='Add to cart'
+            disabled ={ addStatus === 'loading' }
           />
         }
       </div>

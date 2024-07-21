@@ -17,8 +17,6 @@ a {
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
   min-width: 320px;
 }
 
@@ -49,4 +47,8 @@ p, h2, h3, dt, dd {
 
 dt, dd {
   padding: 0px;
+}
+
+main {
+  margin: 0 auto;
 }

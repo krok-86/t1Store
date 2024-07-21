@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Counter from '../../molecules/Counter';
@@ -7,22 +7,44 @@ import ImageWrapper from '../../atoms/ImageWrapper';
 
 import { IProductCart } from '../../../types/types';
 
+import { useAppSelector } from '../../../hooks/hook';
+
 import styles from './cardItem.module.css';
+import { makeDiscountedPrice } from '../../../utils';
 
 export type CardItemType = {
   cardData: IProductCart,
+  sendCart: (idProduct: number, num: number) => void;
 };
 
-const CardItem: FC<CardItemType> = ({ cardData }) => {
+  const CardItem: FC<CardItemType> = ({ cardData, sendCart }) => {
+
+  const { addStatus } = useAppSelector((state) => state.cart);
+
   const [count, setCount] = useState(cardData.quantity);
 
+  const discountedPrice = makeDiscountedPrice(cardData.price || 0, cardData.discountPercentage || 0);
+
   const handleDel = () => {
+    sendCart(cardData.id, 0);
     setCount(0);
   };
 
   const addToCart = () => {
-    setCount(count + 1);
+    sendCart(cardData.id, 1);
+    setCount(1);
   };
+
+  const handleChangeCount = (number: number) => {
+    sendCart(cardData.id, number);
+    setCount(number);
+  }
+
+  useEffect(() => {
+    if (addStatus === 'error') {
+      setCount(cardData.quantity);
+    }
+  }, [addStatus]);
 
   return (
     <div className={styles.cardItem} role="listitem">
@@ -41,15 +63,16 @@ const CardItem: FC<CardItemType> = ({ cardData }) => {
             </div>
           </Link>
           <div className={styles.price}>
-            {cardData.price} $
+            {discountedPrice}
           </div>
         </div>
       </div>
       {count ?
         <div className={styles.actions}>
           <Counter
-            count={cardData.quantity}
-            // setCount={setCount}
+            count={count}
+            setCount={handleChangeCount}
+            isLoading = { addStatus === 'loading' }
           />
           <div
             className={styles.del}
@@ -64,7 +87,7 @@ const CardItem: FC<CardItemType> = ({ cardData }) => {
           label={<img className={styles.cart} src="/pictures/cart.svg" alt="cart" />}
           isSmall
           onClick={addToCart}
-          area-label='Add to cart'
+          aria-label='Add to cart'
         />
       }
     </div>

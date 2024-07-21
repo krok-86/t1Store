@@ -1,37 +1,75 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { useGetProductByIdQuery } from '../../../redux/api/index.rtkQuery';
-import { countInCart, errorToast, formRatingArray } from '../../../utils';
+import { countInCart, errorToast, formRatingArray, LocalStorageUtil, makeDiscountedPrice } from '../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook';
+
+import { IProductCart } from '../../../types/types';
+import { updateACart } from '../../../redux/slices/cart';
+
 import Gallery from '../../organisms/Gallery';
 import Spinner from '../../atoms/Spinner';
-
-import styles from './product.module.css'
 import Button from '../../../stories/atoms/Button';
 import NotFoundPage from '../NotFoundPage';
-import { useAppSelector } from '../../../hooks/hook';
 import Counter from '../../molecules/Counter';
-import { useMemo } from 'react';
+
+import styles from './product.module.css'
 
 const Product = () => {
-  const { id = '-1' } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
-  const { items } = useAppSelector((state) => state.cart);
+  const { items, addStatus } = useAppSelector((state) => state.cart);
 
-  const count = useMemo(() => countInCart(items, +id), [items, id])
+  const count = useMemo(() => countInCart(items, +id), [items, id]);
 
   const { data, isLoading, isError } = useGetProductByIdQuery(id);
 
-  if (isLoading) {
-    return <Spinner />;
+  const dispatch = useAppDispatch();
+
+  const sendCart = (idProduct: number, num: number) => {
+    const existingItem = items.find(item => item.id === idProduct);
+    let updatedItems: IProductCart[] = [];
+    if (existingItem) {
+      updatedItems = items.map(item => {
+        if (item.id === idProduct) {
+          return { ...item, quantity: num };
+        }
+        return item;
+      });
+    } else {
+      updatedItems = [...items, { id: +id, title: data?.title, price: data?.price, quantity: num }];
+    }
+    const userId = LocalStorageUtil.getItem('userId');
+    if (!userId) return;
+    dispatch(updateACart({
+      userId,
+      cart: updatedItems,
+    }));
   };
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   if (isError || !data) {
-    errorToast('Товар не найден!');
+    errorToast('Item not found!');
     return <NotFoundPage />;
-  };
+  }
 
   const ratingArray = formRatingArray(data.rating);
 
-  const discountedPrice = (data.price * (100-data.discountPercentage)/100).toFixed(2);
+  const discountedPrice = makeDiscountedPrice(data.price, data.discountPercentage);
+
+  const addToCart = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    const newCount = count + 1;
+    sendCart(+id, newCount);
+  };
+
+  const handleChangeCount = (number: number) => {
+    sendCart(+id, number);
+  };
 
   return (
     <article className={styles.product}>
@@ -64,19 +102,26 @@ const Product = () => {
               <p className={styles.previous}>{data.price}$</p>
             </div>
             <p className={styles.discount}>
-              Your discount:<p className={styles.discount_bold}>{(data.discountPercentage).toFixed(2)}%</p>
+              Your discount:
+              <p className={styles.discount_bold}>
+              {(data.discountPercentage).toFixed(2)}%
+              </p>
             </p>
           </div>
 
-          {count ?
+          { count ?
             <Counter
               count={count}
-              // setCount={setCount}
+              setCount = {handleChangeCount}
+              limit={data.stock}
+              isLoading={addStatus === 'loading'}
             />
             :
             <Button
+              onClick={addToCart}
               className={styles.button}
               label='Add to cart'
+              disabled={addStatus === 'loading'}
             />
           }
         </div>

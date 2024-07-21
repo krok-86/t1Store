@@ -47,6 +47,19 @@ export class SessionStorageUtil {
   }
 }
 
+export class LocalStorageUtil {
+  static getItem(key: string): string | null {
+    return window.localStorage.getItem(key);
+  }
+
+  static setItem(key: string, value: string): void {
+    window.localStorage.setItem(key, value);
+  }
+
+  static removeItem(key: string): void {
+    window.localStorage.removeItem(key);
+  }
+}
 
 export const successToast = (message: string) => {
   return toast.success(message, {
@@ -77,3 +90,7 @@ export const errorToast = (message: string) => {
 export const countInCart = (items:  IProductCart[], id: number) => {
   return items?.find((el: IProductCart) => el.id == id)?.quantity || 0;
 }
+
+export const makeDiscountedPrice = (price: number, discountPercentage: number) => {
+  return (price * (100-discountPercentage)/100).toFixed(2);
+};

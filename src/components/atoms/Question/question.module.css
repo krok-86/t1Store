@@ -46,9 +46,9 @@
   transition: height 0.5s ease;
 }
 
-.questionClosed {
+/* .questionClosed {
   height: 50px;
-}
+} */
 
 .buttonWrapRotated {
   transform: rotate(45deg);
