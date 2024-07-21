@@ -1,0 +1,129 @@
+.picWrap {
+  width: 370px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.img {
+  height: 100%;
+  width: auto;
+}
+
+.details{
+  opacity: 25%;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-right: 5px;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.textDescription {
+  font-weight: 600;
+  color:#444B58;
+}
+
+.isHovered {
+  text-decoration: underline;
+}
+
+.textPrice {
+  color:#444B58;
+  letter-spacing: 1px;
+}
+.mouseTarget {
+  position: absolute;
+  height: 300px;
+  width: 370px;
+  font-size: 26px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(135, 135, 135, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mouseTargetHidden {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.mouseTargetVisible {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.cart {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 1280px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+  }
+
+  .picWrap {
+    width: 250px;
+    height: 200px;
+  }
+  .title {
+    flex-direction: column;
+    width: 250px;
+  }
+
+  .mouseTarget {
+    width: 250px;
+    height: 200px;
+    font-size: 18px;
+  }
+
+  .img {
+    height: 200px;
+    width: 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .picWrap {
+    width: 150px;
+    height: 100px;
+  }
+  .title {
+    flex-direction: column;
+  }
+
+  .mouseTarget {
+    width: 150px;
+    height: 100px;
+    font-size: 14px;
+  }
+
+  .img {
+    height: 100px;
+    width: 150px;
+  }
+}

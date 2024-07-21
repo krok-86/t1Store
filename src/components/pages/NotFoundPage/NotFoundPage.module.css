@@ -1,0 +1,13 @@
+
+.container {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .container h2 {
+    color: red;
+  }
+
+  .container p {
+    color: #333;
+  }

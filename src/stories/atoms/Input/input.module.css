@@ -1,0 +1,14 @@
+.input {
+    height: 62px;
+    border-radius: 4px;
+    background-color: #F6F6F6;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    padding-left: 20px;
+}
+
+::placeholder {
+    font-family: "Jost", sans-serif;
+    color: #B2B5BB;
+}

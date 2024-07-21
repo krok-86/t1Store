@@ -1,0 +1,14 @@
+.emptyCart {
+  width: 100%;
+  padding: 48px 130px;
+}
+
+.text {
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  color: #B2B5BB;
+  margin-top: 48px;
+}

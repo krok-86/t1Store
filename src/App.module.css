@@ -1,0 +1,11 @@
+
+.content {
+  min-height: calc(100vh - 180px);
+  width: 1440px;
+}
+
+@media (max-width: 1440px) {
+  .content {
+    width: 100%;
+  }
+}

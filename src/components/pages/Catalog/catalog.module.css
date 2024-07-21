@@ -1,0 +1,56 @@
+.catalog {
+  width: 100%;
+  padding: 48px 128px;
+}
+
+.catalogTitle {
+  font-size: 36px;
+  font-weight: 700;
+  color: #444B58;
+  text-align: left;
+}
+.catalogInput {
+  width: 100%;
+  margin: 48px auto;
+}
+
+.catalogList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 26px;
+  column-gap: 29px;
+}
+
+.catalogButton {
+  margin: 54px auto 0;
+  width: 177px;
+  font-size: 16px;
+}
+
+@media (max-width: 1439px) {
+  .catalog {
+    padding: 48px 30px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .catalog {
+    width: 100vw;
+  }
+  .catalogList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .catalogList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
