@@ -1,28 +1,60 @@
-import { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Suspense, lazy, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import CustomFooter from './components/organisms/Footer';
 import CustomHeader from './components/organisms/Header';
 import NotFoundPage from './components/pages/NotFoundPage';
 import Spinner from './components/atoms/Spinner';
+import SingIn from './components/pages/SignIn';
+import ProtectedRoute from './ProtectedRoute';
 
 import styles from './App.module.css';
+
 
 const Catalog = lazy(() => import('./components/pages/Catalog'));
 const Cart = lazy(() => import('./components/pages/Cart'));
 const Product = lazy(() => import('./components/pages/Product'));
 
 const App = () => {
+  const [isLoggin, setIsLoggin] = useState('');
+
+  const handleLogin = (value: string) => {
+    setIsLoggin(value);
+  }
+
   return (
     <>
-      <CustomHeader />
+      <CustomHeader
+        handleLogin={handleLogin}
+        isLoggin={isLoggin}
+      />
       <main className={styles.content}>
         <Suspense fallback={<Spinner />}>
           <Routes>
-            <Route path="/" element={<Catalog />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/product/:id" element={<Product />} />
+            <Route path="/"
+              element={
+                (<ProtectedRoute isLoggin={isLoggin}>
+                  <Catalog />
+                </ProtectedRoute>)
+              } />
+
+            <Route path="/cart"
+              element={
+                (<ProtectedRoute isLoggin={isLoggin}>
+                  <Cart />
+                </ProtectedRoute>)
+              }
+            />
+            <Route path="/product/:id"
+              element={
+                (<ProtectedRoute isLoggin={isLoggin}>
+                  <Product />
+                </ProtectedRoute>)
+              } />
+            <Route path="/singIn" element={
+              isLoggin === 'not logged' ? <SingIn handleLogin={handleLogin}/> :
+              <Navigate to="/" replace />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

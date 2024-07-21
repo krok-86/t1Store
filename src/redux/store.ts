@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { cartReducer } from './slices/cart'
-import { catalogApi, productApi } from './api/index.rtkQuery';
+import { catalogApi, currentUserApi, loginApi, productApi } from './api/index.rtkQuery';
 
 const defaultMiddlewareConfig = {
   serializableCheck: false
@@ -11,9 +11,11 @@ export const store = configureStore({
     cart: cartReducer, 
     [productApi.reducerPath]: productApi.reducer,
     [catalogApi.reducerPath]: catalogApi.reducer,
+    [loginApi.reducerPath]: loginApi.reducer,
+    [currentUserApi.reducerPath]: currentUserApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware(defaultMiddlewareConfig).concat(productApi.middleware, catalogApi.middleware),
+    getDefaultMiddleware(defaultMiddlewareConfig).concat(productApi.middleware, catalogApi.middleware, loginApi.middleware, currentUserApi.middleware),
 })
 
 export type RootStateType = ReturnType<typeof store.getState>;

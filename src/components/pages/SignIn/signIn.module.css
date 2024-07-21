@@ -1,0 +1,28 @@
+.signIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 180px);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 426px;
+    border-radius: 4px;
+    margin: 60px;
+    gap: 60px;
+    border: 1px solid #C4C4C4;
+  }
+
+  .input {
+    width: 480px;
+  }
+
+  .button {
+    width: 177.6px;
+  }

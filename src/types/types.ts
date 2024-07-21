@@ -11,13 +11,14 @@ export interface IRejectValue {
 
 export interface IProductCart {
   id: number;
-  title: string;
-  price: number;
+  title?: string;
+  price?: number;
   quantity: number;
-  total: number;
-  dicountPercentage: number;
-  dicountedTotal: number;
-  thumbnail: string;
+  total?: number;
+  discountPercentage?: number;
+  dicountedTotal?: number;
+  thumbnail?: string;
+  stock?: number;
 }
 
 export interface IProduct {
@@ -46,6 +47,7 @@ export type CatalogItemType = {
   title: string,
   price: number,
   thumbnail: string,
+  stock?: number;
 }
 export type CartItemType = {
   products: IProductCart[];
@@ -56,7 +58,6 @@ export type CartItemType = {
 export type CartType = {
   carts: CartItemType[];
 };
-
 export type ProductDataType = {
   data: ProductType;
 }
@@ -69,7 +70,24 @@ export type ProductItemType = {
 export type CartDataType = {
   data: CartType;
 };
-
 export type CartItemDataType = {
   data: CartItemType;
 };
+export type UserCredsType = {
+  username: string;
+  password: string;
+  expiresInMins?: number;
+}
+export type UserType = {
+  id: number,
+  firstName: string;
+  lastName: string;
+  token: string;
+}
+
+export interface ApiError {
+  data?: {
+    message?: string;
+  };
+  status?: number;
+}

@@ -42,14 +42,11 @@
   color:#444B58;
 }
 
-.isHovered {
-  text-decoration: underline;
-}
-
 .textPrice {
   color:#444B58;
   letter-spacing: 1px;
 }
+
 .mouseTarget {
   position: absolute;
   height: 300px;
@@ -61,22 +58,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.mouseTargetHidden {
   opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.mouseTargetVisible {
-  opacity: 1;
-  transition: opacity 1s ease;
 }
 
 .cart {
   width: 18px;
   height: 18px;
 }
+
+.card:hover .mouseTarget {
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+
+  .card:hover .textDescription {
+    text-decoration: underline;
+  }
 
 @media (max-width: 1280px) {
   .card {

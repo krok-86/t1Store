@@ -20,16 +20,35 @@ const Question: FC<IQuestionProps> = ({ faq }) => {
   };
 
   return (
-    <div className={`${styles.faq} ${opened ? styles.faqOpened : ''}`} onClick={handleClick}>
-      <dt className={`${styles.question} ${opened ? '' : styles.questionClosed}`} role="term">
+    <div
+      className={`${styles.faq} ${opened ? styles.faqOpened : ''}`}
+      onClick={handleClick}
+    >
+      <dt
+        className={`${styles.question} ${opened ? '' : styles.questionClosed}`}
+        role="term"
+        aria-haspopup="true"
+      >
         {faq.question}
         <div className={`${styles.buttonWrap} ${opened ? styles.buttonWrapRotated : ''}`}>
-          <img className={styles.picture} src="./pictures/ButtonOpen.svg" alt="open" />
+          <img
+            className={styles.picture}
+            src="./pictures/ButtonOpen.svg"
+            alt="open"
+            aria-hidden
+          />
         </div>
       </dt>
-      <Transition in={opened} timeout={0}>
+      <Transition
+        in={opened}
+        timeout={0}
+      >
         {(state: string) => (
-          <dd className={`${styles.answer} ${state === 'entered' ? styles.answerOpened : ''}`} role="definition">
+          <dd
+            className={`${styles.answer} ${state === 'entered' ? styles.answerOpened : ''}`}
+            aria-expanded = {opened}
+            role="definition"
+          >
             {faq.answer}
           </dd>
         )}
